@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <property scope="context" name="logs_path" value="./logs"/>
+    <property scope="context" name="root_log_level" value="debug"/>
+
+    <!-- Appender Configuration [Console] -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight([%-5level]) %logger{25} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- Appender Configuration [File] -->
+    <appender name="FILE_ROOT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <file>${logs_path}/root.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${logs_path}/archived/root.%i.log</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <!-- Appender Output Configuration -->
+    <root level="${root_log_level}>">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_ROOT"/>
+    </root>
+
+
+</configuration>
